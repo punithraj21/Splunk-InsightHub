@@ -1,0 +1,42 @@
+service: Starter
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  hello:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+  listDashboards:
+    handler: handler.listDashboards
+    events:
+      - http:
+          path: dashboards
+          method: get
+
+  listReports:
+    handler: handler.listReports
+    events:
+      - http:
+          path: reports
+          method: get
+
+  listFields:
+    handler: handler.listFields
+    events:
+      - http:
+          path: reports
+          method: get
+
+  listApps:
+    handler: handler.listApps
+    events:
+      - http:
+          path: reports
+          method: get
