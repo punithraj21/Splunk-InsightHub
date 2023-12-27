@@ -1,7 +1,7 @@
 import { fetchApps, fetchDashboards, fetchFieldSummary, fetchReports } from './splunkApi.js';
 
 const listDashboards = async (event) => {
-    const { username, password } = JSON.parse(event.body);
+    const { username, password } = event.body;
 
     try {
         const dashboards = await fetchDashboards({ username, password });

@@ -95,4 +95,6 @@ To learn more about the capabilities of `serverless-offline`, please refer to it
 ## Invoking Function with args in local
 ```
 serverless invoke local --function listDashboards -d "{\"body\": \"{\\\"username\\\":\\\"username\\\",\\\"password\\\":\\\"password\\\"}\"}"
+
+serverless invoke local --function listDashboards -p event.json
 ```

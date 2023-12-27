@@ -1,42 +1,39 @@
 service: Starter
-frameworkVersion: "3"
+frameworkVersion: '3'
 
 provider:
-  name: aws
-  runtime: nodejs18.x
+    name: aws
+    runtime: nodejs18.x
+    #stage: dev
+    region: ap-south-1
 
 functions:
-  hello:
-    handler: index.handler
-    events:
-      - httpApi:
-          path: /
-          method: get
+    listDashboards:
+        handler: handler.listDashboards
+        timeout: 30 #seconds
+        #memorySize: 128 #mb
+        events:
+            - http:
+                  path: dashboards
+                  method: get
 
-  listDashboards:
-    handler: handler.listDashboards
-    events:
-      - http:
-          path: dashboards
-          method: get
+    listReports:
+        handler: handler.listReports
+        events:
+            - http:
+                  path: reports
+                  method: get
 
-  listReports:
-    handler: handler.listReports
-    events:
-      - http:
-          path: reports
-          method: get
+    listFields:
+        handler: handler.listFields
+        events:
+            - http:
+                  path: fields
+                  method: get
 
-  listFields:
-    handler: handler.listFields
-    events:
-      - http:
-          path: reports
-          method: get
-
-  listApps:
-    handler: handler.listApps
-    events:
-      - http:
-          path: reports
-          method: get
+    listApps:
+        handler: handler.listApps
+        events:
+            - http:
+                  path: apps
+                  method: get
