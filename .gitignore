@@ -1,7 +1,11 @@
-# package directories
+.DS_Store
+.idea/
+lerna-debug.log
 node_modules
-jspm_packages
-
-# Serverless directories
-.serverless
-.env
+npm-debug.log
+test-reports
+coverage_report
+yarn-error.log
+licenses.json
+functional-temp
+splunktional-temp
