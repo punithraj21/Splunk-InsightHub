@@ -92,9 +92,7 @@ serverless offline
 To learn more about the capabilities of `serverless-offline`, please refer to its [GitHub repository](https://github.com/dherault/serverless-offline).
 
 
+## Invoking Function with args in local
 ```
-Invoking Function with args
-
 serverless invoke local --function listDashboards -d "{\"body\": \"{\\\"username\\\":\\\"username\\\",\\\"password\\\":\\\"password\\\"}\"}"
-
 ```

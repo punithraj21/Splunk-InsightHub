@@ -1,6 +1,8 @@
 # Contributing to InsightHub
 
-## Overview
+## Overview 
+
+Refer packages/serverless README.md for serverless development
 
 The project contains a variety of packages that are published and versioned collectively. Each package lives in its own 
 directory in the `/packages` directory. Each package is self contained, and defines its dependencies in a package.json file.
