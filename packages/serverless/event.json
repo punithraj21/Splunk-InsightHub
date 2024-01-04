@@ -1,7 +1,7 @@
 {
-  "body": {
-    "username": "punithraj",
-    "password": "Whiteshark@1",
-    "offset": "0"
+  "queryStringParameters": {
+    "page": "1",
+    "limit": "10",
+    "type": "dashboard"
   }
 }

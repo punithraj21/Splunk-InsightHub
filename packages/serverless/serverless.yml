@@ -45,5 +45,12 @@ functions:
                   path: storeAllDataToDB
                   method: post
 
+    fetchPaginatedResults:
+        handler: handler.fetchPaginatedResults
+        events:
+            - http:
+                  path: fetchPaginatedResults
+                  method: get
+
 plugins:
     - serverless-offline

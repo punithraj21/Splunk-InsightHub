@@ -1,8 +1,9 @@
 import dotenv from "dotenv";
 import fetch from "node-fetch";
 import https from "https";
-
 dotenv.config();
+
+import { connectToDb } from "./dbConnection.js";
 
 const splunkHost = process.env.SPLUNK_HOST || "127.0.0.1";
 const splunkPort = process.env.SPLUNK_PORT || 8089;
@@ -83,4 +84,38 @@ async function fetchApps({ username, password, offset }) {
     }
 }
 
-export { fetchDashboards, fetchReports, fetchFieldSummary, fetchApps };
+async function fetchDataPaginated({ page = 1, limit = 30, type = null }) {
+    const db = await connectToDb();
+    const collection = db.collection("splunk_host");
+
+    try {
+        const skip = (page - 1) * limit;
+        const types = { dashboards: "dashboard", reports: "report", apps: "app", fields: "fieldsummary", all: "all" };
+
+        let query = {};
+        type = types[type];
+        if (type && type.toLowerCase() !== "all") query.type = type;
+
+        // Fetching paginated data
+        const documents = await collection.find(query).skip(skip).limit(limit).toArray();
+        const total = await collection.countDocuments(query);
+
+        // Returning the paginated data
+        return {
+            data: documents,
+            paging: {
+                currentPage: page,
+                totalPages: Math.ceil(total / limit),
+                totalItems: total,
+                itemsPerPage: limit,
+            },
+        };
+    } catch (error) {
+        console.error("Error fetching paginated data:", error);
+        throw error;
+    } finally {
+        await db.client.close();
+    }
+}
+
+export { fetchDashboards, fetchReports, fetchFieldSummary, fetchApps, fetchDataPaginated };
