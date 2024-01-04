@@ -1,7 +1,6 @@
-printWidth: 100
-singleQuote: true
+printWidth: 150
 tabWidth: 4
 overrides:
-  - files: "*.json"
-    options:
-      tabWidth: 2
+    - files: '*.json'
+      options:
+          tabWidth: 2
