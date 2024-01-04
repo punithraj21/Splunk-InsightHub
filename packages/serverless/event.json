@@ -2,6 +2,7 @@
   "queryStringParameters": {
     "page": "1",
     "limit": "10",
-    "type": "dashboard"
+    "type": "dashboard",
+    "query": "python"
   }
 }
