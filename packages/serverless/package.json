@@ -3,5 +3,8 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "serverless-offline": "^13.3.2"
   }
 }
