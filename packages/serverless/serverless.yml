@@ -19,6 +19,7 @@ functions:
 
     listReports:
         handler: handler.listReports
+        timeout: 30
         events:
             - http:
                   path: reports
@@ -26,6 +27,7 @@ functions:
 
     listFields:
         handler: handler.listFields
+        timeout: 30
         events:
             - http:
                   path: fields
@@ -33,6 +35,7 @@ functions:
 
     listApps:
         handler: handler.listApps
+        timeout: 30
         events:
             - http:
                   path: apps
@@ -40,6 +43,7 @@ functions:
 
     storeAllDataToDB:
         handler: storeAllDataToDB.storeAllDataToDB
+        timeout: 30
         events:
             - http:
                   path: storeAllDataToDB
@@ -47,9 +51,26 @@ functions:
 
     fetchPaginatedResults:
         handler: handler.fetchPaginatedResults
+        timeout: 30
         events:
             - http:
                   path: fetchPaginatedResults
+                  method: get
+
+    fetchAndIndexTypeSenseData:
+        handler: typeSense/typeSenseIndexData.fetchAndIndexTypeSenseData
+        timeout: 30
+        events:
+            - http:
+                  path: typeSenseIndexData
+                  method: get
+
+    search:
+        handler: typeSense/search.search
+        timeout: 30
+        events:
+            - http:
+                  path: search
                   method: get
 
 plugins:

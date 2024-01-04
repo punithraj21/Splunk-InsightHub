@@ -3,7 +3,8 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "mongodb": "^6.3.0",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "typesense": "^1.7.2"
   },
   "devDependencies": {
     "serverless-offline": "^13.3.2"
