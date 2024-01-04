@@ -1,4 +1,4 @@
-import { fetchApps, fetchDashboards, fetchFieldSummary, fetchReports } from "./splunkApi.js";
+import { fetchApps, fetchDashboards, fetchFieldSummary, fetchReports, fetchDataPaginated } from "./splunkApi.js";
 
 const listDashboards = async (event) => {
     const { username, password, offset } = JSON.parse(event.body);
@@ -68,4 +68,21 @@ const listApps = async (event) => {
     }
 };
 
-export { listDashboards, listReports, listFields, listApps };
+const fetchPaginatedResults = async (event) => {
+    const { page, limit, type } = event.queryStringParameters;
+
+    try {
+        const results = await fetchDataPaginated({ page, limit, type });
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ results }),
+        };
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: "Failed to fetch Data" }),
+        };
+    }
+};
+
+export { listDashboards, listReports, listFields, listApps, fetchPaginatedResults };
