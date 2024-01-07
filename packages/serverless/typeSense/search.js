@@ -22,6 +22,18 @@ function extractHighlights(searchResp) {
 const search = async (event) => {
     const { query, page = 1, type = "all" } = event.queryStringParameters;
     try {
+        const filterTypes = {
+            dashboards: "type:dashboard",
+            reports: "type:report",
+            apps: "type:app",
+            fields: "type:field",
+            indexes: "type:index",
+            lookups: "type:lookup",
+            allKnowledgeObjects: "type:dashboard || type:report || type:app",
+            allDataInventory: "type:index || type:lookup || type:field",
+        };
+
+        const filter = filterTypes[type];
         const searchResp = await client
             .collections("splunk_host")
             .documents()
@@ -29,6 +41,7 @@ const search = async (event) => {
                 q: query,
                 query_by: "name,type,author,description",
                 per_page: 30,
+                filter_by: filter,
                 page: page || 1,
             });
 
@@ -36,25 +49,13 @@ const search = async (event) => {
 
         const filteredResults = searchResp.hits
             .map((hit) => {
-                if (type !== "all" && type === hit.document.type) {
-                    return {
-                        name: hit.document.name,
-                        type: hit.document.type,
-                        description: hit.document.description,
-                        author: hit.document.author,
-                        id: hit.document.id,
-                    };
-                } else if (type === "all") {
-                    return {
-                        name: hit.document.name,
-                        type: hit.document.type,
-                        description: hit.document.description,
-                        author: hit.document.author,
-                        id: hit.document.id,
-                    };
-                } else {
-                    return undefined;
-                }
+                return {
+                    name: hit.document.name,
+                    type: hit.document.type,
+                    description: hit.document.description,
+                    author: hit.document.author,
+                    id: hit.document.id,
+                };
             })
             .filter((result) => result !== undefined);
 
@@ -74,6 +75,7 @@ const search = async (event) => {
             body: JSON.stringify({ results }),
         };
     } catch (error) {
+        console.log("error: ", error);
         return {
             statusCode: 500,
             body: JSON.stringify({ error }),

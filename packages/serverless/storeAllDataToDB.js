@@ -1,5 +1,6 @@
 import { MongoClient } from "mongodb";
-import { fetchApps, fetchDashboards, fetchReports } from "./splunkApi.js";
+import { fetchApps, fetchDashboards, fetchFieldSummary, fetchReports } from "./splunkApi.js";
+import { fetchData, fetchFields, fetchIndexes, fetchLookups } from "./dataInventry/fetchAndStore.js";
 
 const url = "mongodb+srv://splunk:Whiteshark@splunk-dev.g5tmsam.mongodb.net/";
 const client = new MongoClient(url);
@@ -7,7 +8,7 @@ const client = new MongoClient(url);
 const dbName = "splunk";
 
 async function storeAllDataToDB(event) {
-    const { username, password } = event.body;
+    // const { username, password } = event.body;
 
     try {
         await client.connect();
@@ -26,7 +27,7 @@ async function storeAllDataToDB(event) {
         for (let i = 0; i < totalPages; i++) {
             const offset = i * perPage;
 
-            //Fetch all Dashboards
+            // Fetch all Dashboards
             const dashboardData = await fetchDashboards({ username, password, offset });
             dashboardData.entry.forEach((item) => {
                 item.type = "dashboard";
@@ -41,11 +42,29 @@ async function storeAllDataToDB(event) {
             storeAllData.push(...reportsData.entry);
 
             //Fetch all Apps
-            const fields = await fetchApps({ username, password, offset });
-            fields.entry.forEach((item) => {
+            const apps = await fetchApps({ username, password, offset });
+            apps.entry.forEach((item) => {
                 item.type = "app";
             });
+            storeAllData.push(...apps.entry);
+
+            const fields = await fetchFields();
+            fields.entry.forEach((item) => {
+                item.type = "field";
+            });
             storeAllData.push(...fields.entry);
+
+            const lookups = await fetchLookups();
+            lookups.entry.forEach((item) => {
+                item.type = "lookup";
+            });
+            storeAllData.push(...lookups.entry);
+
+            const indexes = await fetchIndexes();
+            indexes.entry.forEach((item) => {
+                item.type = "index";
+            });
+            storeAllData.push(...indexes.entry);
         }
         //Insert All the Data to collection
         const result = await collection.insertMany(storeAllData);

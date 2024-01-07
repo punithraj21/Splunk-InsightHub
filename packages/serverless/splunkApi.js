@@ -90,11 +90,25 @@ async function fetchDataPaginated({ page = 1, limit = 30, type = null }) {
 
     try {
         const skip = (page - 1) * limit;
-        const types = { dashboards: "dashboard", reports: "report", apps: "app", fields: "fieldsummary", all: "all" };
+        const types = {
+            dashboards: "dashboard",
+            reports: "report",
+            apps: "app",
+            fields: "field",
+            indexes: "index",
+            lookups: "lookup",
+            allKnowledgeObjects: ["dashboard", "report", "app"],
+            allDataInventory: ["index", "lookup", "field"],
+        };
 
         let query = {};
         type = types[type];
-        if (type && type.toLowerCase() !== "all") query.type = type;
+
+        if (Array.isArray(type)) {
+            query.type = { $in: type };
+        } else if (type && type.toLowerCase() !== "all") {
+            query.type = type;
+        }
 
         // Fetching paginated data
         const documents = await collection.find(query).skip(skip).limit(limit).toArray();
