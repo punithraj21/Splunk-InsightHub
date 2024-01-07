@@ -1,7 +1,6 @@
 import { connectToDb } from "../dbConnection.js";
 
 const storeSearches = async (event) => {
-    console.log("event: ", event);
     const { searchTerm } = JSON.parse(event.body);
 
     try {

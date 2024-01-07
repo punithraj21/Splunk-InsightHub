@@ -54,7 +54,7 @@ functions:
         timeout: 30
         events:
             - http:
-                  path: fetchPaginatedResults
+                  path: list
                   method: get
 
     fetchAndIndexTypeSenseData:

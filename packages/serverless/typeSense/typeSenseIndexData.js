@@ -1,16 +1,16 @@
 import Typesense from "typesense";
-
 import { connectToDb } from "../dbConnection.js";
 
-async function fetchDocumentsFromMongoDB() {
+async function fetchDocumentsFromMongoDB(batchSize, skip) {
     const db = await connectToDb();
     const collection = db.collection("splunk_host");
     try {
-        // Fetch all documents
-        const documents = await collection.find({}).toArray();
+        // Fetch documents in batches
+        const documents = await collection.find({}).skip(skip).limit(batchSize).toArray();
         return documents;
     } catch (error) {
         console.error("Error fetching documents:", error);
+        return []; // Return an empty array in case of error
     } finally {
         await db.client.close();
     }
@@ -32,16 +32,32 @@ async function indexDocumentsInTypesense(documents) {
     try {
         const collectionName = "splunk_host";
         await Promise.all(documents.map((doc) => client.collections(collectionName).documents().upsert(doc)));
-        console.log("All documents indexed in Typesense");
+        console.log("Batch of documents indexed in Typesense");
     } catch (error) {
         console.error("Error indexing documents in Typesense:", error);
     }
 }
 
-const fetchAndIndexTypeSenseData = async () => {
-    const documents = await fetchDocumentsFromMongoDB();
+async function createCollectionIfNotExists(schema) {
+    try {
+        await client.collections("splunk_host").retrieve();
+        console.log("Collection already exists");
+    } catch (error) {
+        if (error.httpStatus === 404) {
+            console.log("Collection not found. Creating collection...");
+            await client.collections().create(schema);
+            console.log("Collection created");
+        } else {
+            console.error("Error checking collection existence:", error);
+        }
+    }
+}
 
-    //Retrieve Collection and Create if not exists
+const fetchAndIndexTypeSenseData = async () => {
+    const batchSize = 100;
+    let skip = 0;
+    let documents;
+
     const schema = {
         name: "splunk_host",
         fields: [
@@ -53,28 +69,20 @@ const fetchAndIndexTypeSenseData = async () => {
         ],
     };
 
-    client
-        .collections("splunk_host")
-        .retrieve()
-        .then(() => console.log("Collection exists"))
-        .catch((error) => {
-            if (error.httpStatus === 404) {
-                console.log("Collection not found. Creating collection...");
-                client
-                    .collections()
-                    .create(schema)
-                    .then(() => console.log("Collection created"))
-                    .catch((error) => console.error("Error creating collection:", error));
-            } else {
-                console.error(error);
-            }
-        });
+    await createCollectionIfNotExists(schema);
 
-    const filteredDocs = documents.map((doc) => {
-        return { name: doc.name, type: doc.type, description: doc.content.description || "", author: doc.author, _id: doc._id };
-    });
+    do {
+        documents = await fetchDocumentsFromMongoDB(batchSize, skip);
 
-    await indexDocumentsInTypesense(filteredDocs);
+        if (documents.length > 0) {
+            const filteredDocs = documents.map((doc) => {
+                return { name: doc.name, type: doc.type, description: doc.content.description || "", author: doc.author, _id: doc._id };
+            });
+
+            await indexDocumentsInTypesense(filteredDocs);
+            skip += batchSize;
+        }
+    } while (documents.length === batchSize);
 };
 
 export { fetchAndIndexTypeSenseData, client };
