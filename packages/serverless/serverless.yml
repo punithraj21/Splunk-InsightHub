@@ -73,5 +73,13 @@ functions:
                   path: search
                   method: get
 
+    storeSearches:
+        handler: typeSense/storeSearches.storeSearches
+        timeout: 30
+        events:
+            - http:
+                  path: storeSearches
+                  method: post
+
 plugins:
     - serverless-offline

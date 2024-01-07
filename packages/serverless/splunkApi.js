@@ -112,7 +112,6 @@ async function fetchDataPaginated({ page = 1, limit = 30, type = null }) {
         };
     } catch (error) {
         console.error("Error fetching paginated data:", error);
-        throw error;
     } finally {
         await db.client.close();
     }
