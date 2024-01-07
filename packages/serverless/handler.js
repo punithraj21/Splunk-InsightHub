@@ -1,3 +1,4 @@
+import { fetchCountsFromBothCollections } from "./overview/handler.js";
 import { fetchApps, fetchDashboards, fetchFieldSummary, fetchReports, fetchDataPaginated } from "./splunkApi.js";
 
 const listDashboards = async (event) => {
@@ -85,4 +86,19 @@ const fetchPaginatedResults = async (event) => {
     }
 };
 
-export { listDashboards, listReports, listFields, listApps, fetchPaginatedResults };
+const fetchOverviewResults = async (event) => {
+    try {
+        const results = await fetchCountsFromBothCollections();
+        console.log("results: ", results);
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ results }),
+        };
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: "Failed to fetch Data" }),
+        };
+    }
+};
+export { listDashboards, listReports, listFields, listApps, fetchPaginatedResults, fetchOverviewResults };

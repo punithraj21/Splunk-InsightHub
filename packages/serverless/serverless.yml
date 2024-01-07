@@ -57,6 +57,14 @@ functions:
                   path: list
                   method: get
 
+    overview:
+        handler: handler.fetchOverviewResults
+        timeout: 30
+        events:
+            - http:
+                  path: overview
+                  method: get
+
     fetchAndIndexTypeSenseData:
         handler: typeSense/typeSenseIndexData.fetchAndIndexTypeSenseData
         timeout: 30
