@@ -49,6 +49,7 @@ const fetchAndIndexTypeSenseData = async () => {
             { name: "type", type: "string" },
             { name: "description", type: "string" },
             { name: "author", type: "string" },
+            { name: "_id", type: "string" },
         ],
     };
 
@@ -70,7 +71,7 @@ const fetchAndIndexTypeSenseData = async () => {
         });
 
     const filteredDocs = documents.map((doc) => {
-        return { name: doc.name, type: doc.type, description: doc.content.description || "", author: doc.author };
+        return { name: doc.name, type: doc.type, description: doc.content.description || "", author: doc.author, _id: doc._id };
     });
 
     await indexDocumentsInTypesense(filteredDocs);
