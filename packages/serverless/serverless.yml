@@ -89,5 +89,29 @@ functions:
                   path: storeSearches
                   method: post
 
+    updateMetaLabel:
+        handler: handler.updateMetaLabel
+        timeout: 30
+        events:
+            - http:
+                  path: updateMetaLabel
+                  method: post
+
+    updateClassification:
+        handler: handler.updateClassification
+        timeout: 30
+        events:
+            - http:
+                  path: updateClassification
+                  method: post
+
+    storeSecret:
+        handler: secretsManager/secretStore.storeSecret
+        timeout: 30
+        events:
+            - http:
+                  path: login
+                  method: post
+
 plugins:
     - serverless-offline

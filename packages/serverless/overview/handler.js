@@ -14,8 +14,27 @@ async function countDocumentsByType(collectionName) {
             },
         ];
 
-        const countsByType = await collection.aggregate(pipeline).toArray();
+        if (collectionName === "splunk_host") {
+            const metaPipeline = [
+                {
+                    $match: {
+                        metaLabel: { $exists: true, $ne: null },
+                    },
+                },
+                {
+                    $unwind: "$metaLabel",
+                },
+                {
+                    $count: "totalCount",
+                },
+            ];
+            const metaCount = await collection.aggregate(metaPipeline).toArray();
+            const metaLabel = [{ _id: "meta", count: metaCount[0].totalCount || 0 }];
+            const countsByType = await collection.aggregate(pipeline).toArray();
+            return countsByType.concat(metaLabel);
+        }
 
+        const countsByType = await collection.aggregate(pipeline).toArray();
         return countsByType;
     } catch (error) {
         console.error(`Error counting documents by type in ${collectionName}:`, error);
@@ -27,6 +46,7 @@ async function countDocumentsByType(collectionName) {
 async function fetchCountsFromBothCollections() {
     try {
         const splunkHostCounts = await countDocumentsByType("splunk_host");
+        console.log("splunkHostCounts: ", splunkHostCounts);
         const searchesCounts = await countDocumentsByType("searches");
 
         if (searchesCounts.length > 0) {
