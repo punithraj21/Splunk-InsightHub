@@ -1,5 +1,5 @@
 import { fetchCountsFromBothCollections } from "./overview/handler.js";
-import { fetchApps, fetchDashboards, fetchFieldSummary, fetchReports, fetchDataPaginated } from "./splunkApi.js";
+import { fetchApps, fetchDashboards, fetchFieldSummary, fetchReports, fetchDataPaginated, updateMeta, updateClass } from "./splunkApi.js";
 
 const listDashboards = async (event) => {
     const { username, password, offset } = JSON.parse(event.body);
@@ -89,7 +89,6 @@ const fetchPaginatedResults = async (event) => {
 const fetchOverviewResults = async (event) => {
     try {
         const results = await fetchCountsFromBothCollections();
-        console.log("results: ", results);
         return {
             statusCode: 200,
             body: JSON.stringify({ results }),
@@ -101,4 +100,38 @@ const fetchOverviewResults = async (event) => {
         };
     }
 };
-export { listDashboards, listReports, listFields, listApps, fetchPaginatedResults, fetchOverviewResults };
+
+const updateMetaLabel = async (event) => {
+    const { id, metaLabel } = JSON.parse(event.body);
+    try {
+        const results = await updateMeta({ id, metaLabel });
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ results }),
+        };
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: "Failed to update Meta Label" }),
+        };
+    }
+};
+
+const updateClassification = async (event) => {
+    const { id, classification } = JSON.parse(event.body);
+
+    try {
+        const results = await updateClass({ id, classification });
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ results }),
+        };
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: "Failed to update Classification" }),
+        };
+    }
+};
+
+export { listDashboards, listReports, listFields, listApps, fetchPaginatedResults, fetchOverviewResults, updateMetaLabel, updateClassification };

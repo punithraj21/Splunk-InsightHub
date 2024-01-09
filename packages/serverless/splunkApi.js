@@ -4,6 +4,7 @@ import https from "https";
 dotenv.config();
 
 import { connectToDb } from "./dbConnection.js";
+import { ObjectId } from "mongodb";
 
 const splunkHost = process.env.SPLUNK_HOST || "127.0.0.1";
 const splunkPort = process.env.SPLUNK_PORT || 8089;
@@ -131,4 +132,63 @@ async function fetchDataPaginated({ page = 1, limit = 30, type = null }) {
     }
 }
 
-export { fetchDashboards, fetchReports, fetchFieldSummary, fetchApps, fetchDataPaginated };
+async function updateMeta({ id, metaLabel }) {
+    try {
+        const db = await connectToDb();
+        const collection = db.collection("splunk_host");
+        const updatedResult = await collection.updateOne(
+            { _id: new ObjectId(id) },
+            {
+                $set: {
+                    metaLabel,
+                },
+            }
+        );
+        return updatedResult;
+    } catch (error) {
+        console.error("Error updating meta label: ", error);
+    }
+}
+
+async function updateClass({ id, classification }) {
+    try {
+        const db = await connectToDb();
+        const collection = db.collection("splunk_host");
+        const updatedResult = await collection.updateOne(
+            { _id: new ObjectId(id) },
+            {
+                $set: {
+                    classification,
+                },
+            }
+        );
+        console.log("updatedResult: ", updatedResult);
+        return updatedResult;
+    } catch (error) {
+        console.error("Error updating classification: ", error);
+    }
+}
+
+async function fetchCurrentUserRole({ username, password }) {
+    const endpoint = `https://${splunkHost}:${splunkPort}/services/authentication/users/${username}?output_mode=json`;
+    const token = "Basic " + Buffer.from(username + ":" + password).toString("base64");
+
+    try {
+        const response = await fetch(endpoint, {
+            method: "GET",
+            headers: {
+                Authorization: token,
+            },
+            agent: httpsAgent,
+        });
+
+        const data = await response.json();
+
+        const roles = data.entry[0].content.roles;
+        return roles;
+    } catch (error) {
+        console.error("Error fetching user role:", error);
+    }
+}
+
+export { fetchDashboards, fetchReports, fetchFieldSummary, fetchApps, fetchDataPaginated, updateMeta, updateClass, fetchCurrentUserRole };
