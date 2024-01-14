@@ -1,18 +1,17 @@
-import React from 'react';
+import React from "react";
 
-import layout from '@splunk/react-page';
-import ReactInsightHub from '@splunk/react-insight-hub';
-import { getUserTheme } from '@splunk/splunk-utils/themes';
+import layout from "@splunk/react-page";
+import ReactInsightHub from "@splunk/react-insight-hub";
+import { getUserTheme } from "@splunk/splunk-utils/themes";
 
-import { StyledContainer, StyledGreeting } from './StartStyles';
+import { StyledContainer, StyledGreeting } from "./StartStyles";
+import MainComponent from "./MainComponent";
 
 getUserTheme()
     .then((theme) => {
         layout(
             <StyledContainer>
-                {/* <StyledGreeting>Hello, from inside InsightApp!</StyledGreeting>
-                <div>Your component will appear below.</div> */}
-                <ReactInsightHub name="from inside ReactInsightHub" />
+                <MainComponent />
             </StyledContainer>,
             {
                 theme,
@@ -20,7 +19,7 @@ getUserTheme()
         );
     })
     .catch((e) => {
-        const errorEl = document.createElement('span');
+        const errorEl = document.createElement("span");
         errorEl.innerHTML = e;
         document.body.appendChild(errorEl);
     });

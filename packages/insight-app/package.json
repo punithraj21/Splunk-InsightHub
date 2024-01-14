@@ -13,12 +13,14 @@
     "start": "webpack --watch",
     "stylelint": "stylelint \"src/**/*.{js,jsx}\" --config stylelint.config.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
   "devDependencies": {
     "@babel/core": "^7.2.0",
-    "@splunk/react-insight-hub": "^0.0.1",
     "@splunk/babel-preset": "^3.0.0",
     "@splunk/eslint-config": "^4.0.0",
+    "@splunk/react-insight-hub": "^0.0.1",
     "@splunk/react-page": "^6.1.1",
     "@splunk/react-ui": "^4.17.0",
     "@splunk/splunk-utils": "^2.3.3",

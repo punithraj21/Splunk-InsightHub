@@ -6,15 +6,16 @@ dotenv.config();
 import { connectToDb } from "./dbConnection.js";
 import { ObjectId } from "mongodb";
 
+// Environment variables for Splunk host details and credentials
 const splunkHost = process.env.SPLUNK_HOST || "127.0.0.1";
 const splunkPort = process.env.SPLUNK_PORT || 8089;
-const username = process.env.SPLUNK_USERNAME;
-const password = process.env.SPLUNK_PASSWORD;
 
+// HTTPS agent configuration for making requests
 const httpsAgent = new https.Agent({
     rejectUnauthorized: false,
 });
 
+// Function to fetch dashboard data from Splunk
 async function fetchDashboards({ username, password, offset }) {
     try {
         const token = Buffer.from(`${username}:${password}`).toString("base64");
@@ -31,6 +32,7 @@ async function fetchDashboards({ username, password, offset }) {
     }
 }
 
+// Function to fetch report data from Splunk
 async function fetchReports({ username, password, offset }) {
     try {
         const token = Buffer.from(`${username}:${password}`).toString("base64");
@@ -47,6 +49,7 @@ async function fetchReports({ username, password, offset }) {
     }
 }
 
+// Function to fetch field summary from Splunk
 async function fetchFieldSummary({ username, password, offset }) {
     const searchQuery = "search index=_internal | fieldsummary";
     const token = Buffer.from(`${username}:${password}`).toString("base64");
@@ -69,6 +72,7 @@ async function fetchFieldSummary({ username, password, offset }) {
     }
 }
 
+// Function to fetch apps from Splunk
 async function fetchApps({ username, password, offset }) {
     try {
         const token = Buffer.from(`${username}:${password}`).toString("base64");
@@ -85,6 +89,7 @@ async function fetchApps({ username, password, offset }) {
     }
 }
 
+// Function to fetch data from MongoDB in a paginated fashion
 async function fetchDataPaginated({ page = 1, limit = 30, type = null }) {
     const db = await connectToDb();
     const collection = db.collection("splunk_host");
@@ -132,6 +137,7 @@ async function fetchDataPaginated({ page = 1, limit = 30, type = null }) {
     }
 }
 
+// Function to update the meta label of a document in MongoDB
 async function updateMeta({ id, metaLabel }) {
     try {
         const db = await connectToDb();
@@ -150,6 +156,7 @@ async function updateMeta({ id, metaLabel }) {
     }
 }
 
+// Function to update the classification of a document in MongoDB
 async function updateClass({ id, classification }) {
     try {
         const db = await connectToDb();
@@ -169,6 +176,7 @@ async function updateClass({ id, classification }) {
     }
 }
 
+// Function to fetch the current user's role from Splunk
 async function fetchCurrentUserRole({ username, password }) {
     const endpoint = `https://${splunkHost}:${splunkPort}/services/authentication/users/${username}?output_mode=json`;
     const token = "Basic " + Buffer.from(username + ":" + password).toString("base64");
@@ -191,4 +199,5 @@ async function fetchCurrentUserRole({ username, password }) {
     }
 }
 
+// Exporting all the functions for external use
 export { fetchDashboards, fetchReports, fetchFieldSummary, fetchApps, fetchDataPaginated, updateMeta, updateClass, fetchCurrentUserRole };

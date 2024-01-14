@@ -20,8 +20,10 @@
   },
   "main": "ReactInsightHub.js",
   "dependencies": {
+    "@splunk/react-icons": "^4.2.0",
     "@splunk/react-ui": "^4.17.0",
-    "@splunk/themes": "^0.16.0"
+    "@splunk/themes": "^0.16.0",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
@@ -30,10 +32,10 @@
     "@splunk/splunk-utils": "^2.3.3",
     "@splunk/stylelint-config": "^4.0.0",
     "@splunk/webpack-configs": "^6.0.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^12",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.4",
-    "@testing-library/react": "^12",
-    "@testing-library/jest-dom": "^5.16.5",
     "eslint": "^7.14.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^6.15.0",

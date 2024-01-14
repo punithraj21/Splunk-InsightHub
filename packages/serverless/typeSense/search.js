@@ -1,10 +1,13 @@
 import { client } from "./typeSenseIndexData.js";
 
+// Function to extract highlights from the search response
 function extractHighlights(searchResp) {
     const highlightsArray = [];
 
+    // Iterating over each hit in the search response
     searchResp.hits.forEach((hit) => {
         if (hit.highlights) {
+            // Extracting and sanitizing highlight information
             hit.highlights.forEach((highlight) => {
                 const sanitizedSnippet = highlight.snippet.replace(/<\/?mark>/g, "");
                 highlightsArray.push({
@@ -19,9 +22,12 @@ function extractHighlights(searchResp) {
     return highlightsArray;
 }
 
+// Async function to handle search requests
 const search = async (event) => {
+    // Extracting query parameters
     const { query, page = 1, type = "all" } = event.queryStringParameters;
     try {
+        // Mapping filter types to specific filters
         const filterTypes = {
             dashboards: "type:dashboard",
             reports: "type:report",
@@ -32,21 +38,24 @@ const search = async (event) => {
             allKnowledgeObjects: "type:dashboard || type:report || type:app",
             allDataInventory: "type:index || type:lookup || type:field",
         };
-
+        // Determining the filter to apply based on the type
         const filter = filterTypes[type];
+        // Executing the search query with Typesense client
         const searchResp = await client
             .collections("splunk_host")
             .documents()
             .search({
                 q: query,
-                query_by: "name,type,author,description",
+                query_by: "name,description",
                 per_page: 30,
                 filter_by: filter,
                 page: page || 1,
             });
 
+        // Extracting highlights from the search response
         const highlightsData = extractHighlights(searchResp);
 
+        // Mapping and filtering search hits to create a results array
         const filteredResults = searchResp.hits
             .map((hit) => {
                 return {
@@ -59,6 +68,7 @@ const search = async (event) => {
             })
             .filter((result) => result !== undefined);
 
+        // Compiling the final search results
         const results = {
             data: filteredResults,
             paging: {
@@ -75,6 +85,7 @@ const search = async (event) => {
             body: JSON.stringify({ results }),
         };
     } catch (error) {
+        // Handling any errors that occur during the search
         console.log("error: ", error);
         return {
             statusCode: 500,
