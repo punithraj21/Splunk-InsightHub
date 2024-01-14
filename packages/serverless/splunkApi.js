@@ -199,5 +199,5 @@ async function fetchCurrentUserRole({ username, password }) {
     }
 }
 
-// Exporting all the functions for external use
+// Exporting all the functions for external uses
 export { fetchDashboards, fetchReports, fetchFieldSummary, fetchApps, fetchDataPaginated, updateMeta, updateClass, fetchCurrentUserRole };
