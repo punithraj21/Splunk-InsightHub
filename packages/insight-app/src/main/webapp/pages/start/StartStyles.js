@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { variables, mixins } from '@splunk/themes';
+import styled from "styled-components";
+import { variables, mixins } from "@splunk/themes";
 
 const StyledContainer = styled.div`
-    ${mixins.reset('inline')};
+    ${mixins.reset("inline")};
     display: block;
     font-size: ${variables.fontSizeLarge};
     line-height: 200%;
@@ -15,4 +15,10 @@ const StyledGreeting = styled.div`
     font-size: ${variables.fontSizeXXLarge};
 `;
 
-export { StyledContainer, StyledGreeting };
+const StyledInput = styled.div`
+    display: flex;
+    align-items: center;
+    margin: 10px;
+`;
+
+export { StyledContainer, StyledGreeting, StyledInput };

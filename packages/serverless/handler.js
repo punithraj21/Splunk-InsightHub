@@ -1,6 +1,7 @@
 import { fetchCountsFromBothCollections } from "./overview/handler.js";
 import { fetchApps, fetchDashboards, fetchFieldSummary, fetchReports, fetchDataPaginated, updateMeta, updateClass } from "./splunkApi.js";
 
+// Function to list dashboards from Splunk
 const listDashboards = async (event) => {
     const { username, password, offset } = JSON.parse(event.body);
 
@@ -18,6 +19,7 @@ const listDashboards = async (event) => {
     }
 };
 
+// Function to list reports from Splunk
 const listReports = async (event) => {
     const { username, password, offset } = JSON.parse(event.body);
 
@@ -35,6 +37,7 @@ const listReports = async (event) => {
     }
 };
 
+// Function to list fields from Splunk
 const listFields = async (event) => {
     const { username, password, offset } = JSON.parse(event.body);
 
@@ -52,6 +55,7 @@ const listFields = async (event) => {
     }
 };
 
+// Function to list apps from Splunk
 const listApps = async (event) => {
     const { username, password, offset } = JSON.parse(event.body);
 
@@ -69,6 +73,7 @@ const listApps = async (event) => {
     }
 };
 
+// Function to fetch paginated results based on a type
 const fetchPaginatedResults = async (event) => {
     const { page, limit, type } = event.queryStringParameters;
 
@@ -86,6 +91,7 @@ const fetchPaginatedResults = async (event) => {
     }
 };
 
+// Function to fetch overview results (counts) from collections
 const fetchOverviewResults = async (event) => {
     try {
         const results = await fetchCountsFromBothCollections();
@@ -101,6 +107,7 @@ const fetchOverviewResults = async (event) => {
     }
 };
 
+// Function to update meta label for a specific document
 const updateMetaLabel = async (event) => {
     const { id, metaLabel } = JSON.parse(event.body);
     try {
@@ -117,6 +124,7 @@ const updateMetaLabel = async (event) => {
     }
 };
 
+// Function to update classification for a specific document
 const updateClassification = async (event) => {
     const { id, classification } = JSON.parse(event.body);
 
@@ -134,4 +142,5 @@ const updateClassification = async (event) => {
     }
 };
 
+// Exporting all functions for external use
 export { listDashboards, listReports, listFields, listApps, fetchPaginatedResults, fetchOverviewResults, updateMetaLabel, updateClassification };

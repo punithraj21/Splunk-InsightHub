@@ -2,7 +2,6 @@
   "name": "@splunk/insight-hub",
   "license": "UNLICENSED",
   "private": true,
-  "type": "module",
   "scripts": {
     "build": "lerna run build",
     "format": "git ls-files | grep -E \"\\.(jsx?|css)$\" | xargs prettier --write",

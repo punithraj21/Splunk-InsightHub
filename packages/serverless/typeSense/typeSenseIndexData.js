@@ -1,6 +1,7 @@
 import Typesense from "typesense";
 import { connectToDb } from "../dbConnection.js";
 
+// Function to fetch documents from MongoDB in batches
 async function fetchDocumentsFromMongoDB(batchSize, skip) {
     const db = await connectToDb();
     const collection = db.collection("splunk_host");
@@ -12,10 +13,12 @@ async function fetchDocumentsFromMongoDB(batchSize, skip) {
         console.error("Error fetching documents:", error);
         return []; // Return an empty array in case of error
     } finally {
+        // Closing the database connection
         await db.client.close();
     }
 }
 
+// Initializing the Typesense client with configuration
 let client = new Typesense.Client({
     nodes: [
         {
@@ -28,9 +31,11 @@ let client = new Typesense.Client({
     connectionTimeoutSeconds: 30,
 });
 
+// Function to index documents in Typesense
 async function indexDocumentsInTypesense(documents) {
     try {
         const collectionName = "splunk_host";
+        // Upserting each document into Typesense
         await Promise.all(documents.map((doc) => client.collections(collectionName).documents().upsert(doc)));
         console.log("Batch of documents indexed in Typesense");
     } catch (error) {
@@ -38,11 +43,14 @@ async function indexDocumentsInTypesense(documents) {
     }
 }
 
+// Function to create a Typesense collection if it does not exist
 async function createCollectionIfNotExists(schema) {
     try {
+        // Attempting to retrieve the collection
         await client.collections("splunk_host").retrieve();
         console.log("Collection already exists");
     } catch (error) {
+        // If collection does not exist, create a new one
         if (error.httpStatus === 404) {
             console.log("Collection not found. Creating collection...");
             await client.collections().create(schema);
@@ -53,11 +61,13 @@ async function createCollectionIfNotExists(schema) {
     }
 }
 
+// Main function to fetch data from MongoDB and index it in Typesense
 const fetchAndIndexTypeSenseData = async () => {
     const batchSize = 100;
     let skip = 0;
     let documents;
 
+    // Defining the schema for the Typesense collection
     const schema = {
         name: "splunk_host",
         fields: [
@@ -69,17 +79,22 @@ const fetchAndIndexTypeSenseData = async () => {
         ],
     };
 
+    // Creating the collection if it does not exist
     await createCollectionIfNotExists(schema);
 
     do {
+        // Fetching documents in batches
         documents = await fetchDocumentsFromMongoDB(batchSize, skip);
 
         if (documents.length > 0) {
+            // Filtering and structuring documents for Typesense indexing
             const filteredDocs = documents.map((doc) => {
                 return { name: doc.name, type: doc.type, description: doc.content.description || "", author: doc.author, _id: doc._id };
             });
 
+            // Indexing the documents in Typesense
             await indexDocumentsInTypesense(filteredDocs);
+            // Incrementing skip to fetch the next batch
             skip += batchSize;
         }
     } while (documents.length === batchSize);
