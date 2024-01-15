@@ -10,10 +10,11 @@ export const SelectClassification = ({ row, handleChangeClassification }) => {
     // State for managing the selected classification types and current ID
     const [classificationTypes, setClassificationTypes] = useState([]);
     const [currentId, setCurrentId] = useState("");
+    const [typesenseId, setTypesenseId] = useState("");
 
     // Effect hook to call the handleChangeClassification function whenever classificationTypes or the function itself changes
     useEffect(() => {
-        handleChangeClassification(classificationTypes, currentId);
+        handleChangeClassification(classificationTypes, currentId, typesenseId || "");
     }, [classificationTypes, handleChangeClassification]);
 
     // Function to handle classification change
@@ -26,7 +27,8 @@ export const SelectClassification = ({ row, handleChangeClassification }) => {
             style={{ width: "100%" }}
             value={isEmpty(classificationTypes) ? row.classification : classificationTypes}
             onChange={(e, { value }) => {
-                setCurrentId(row._id);
+                setCurrentId(row._id || row.id);
+                setTypesenseId(row.typesenseId || "");
                 changeClassification(e, { value });
             }}
         >

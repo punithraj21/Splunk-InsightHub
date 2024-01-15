@@ -13,9 +13,9 @@ export const TableRow = ({ index, paging, row, handleAddNewMetaLabel, handleChan
 
     // Debounced function for handling input changes (to minimize frequent calls)
     const debouncedUpdate = useCallback(
-        debounce((value, id) => {
+        debounce((value, id, typesenseId) => {
             // Calling the handleAddNewMetaLabel function passed as a prop
-            handleAddNewMetaLabel(value, id);
+            handleAddNewMetaLabel(value, id, typesenseId);
         }, 1000),
         []
     );
@@ -25,7 +25,7 @@ export const TableRow = ({ index, paging, row, handleAddNewMetaLabel, handleChan
         const newValue = e.target.value;
         // Updating local state and debouncing the external update
         setLocalInputValue(newValue);
-        debouncedUpdate(newValue, row._id);
+        debouncedUpdate(newValue, row._id || row.id, row.typesenseId);
     };
 
     return (
