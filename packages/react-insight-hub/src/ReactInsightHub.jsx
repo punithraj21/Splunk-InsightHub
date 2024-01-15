@@ -9,7 +9,7 @@ import { dropDownOptions, mainTabs, tabs } from "../../insight-app/config";
 import { TableRow } from "./components/TableRow";
 import OverviewSection from "./components/OverviewSection";
 import SearchComponent from "./components/SearchComponent";
-import { SelectComponent } from "./components/SelectComponent";
+import { SelectComponent } from "./components/DropDownOptions";
 
 // Main component for displaying insights and data management
 const ReactInsightHub = ({
