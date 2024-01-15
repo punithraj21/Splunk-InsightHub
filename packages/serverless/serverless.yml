@@ -18,6 +18,7 @@ functions:
             - http:
                   path: dashboards
                   method: post
+                  cors: true
 
     listReports:
         handler: handler.listReports
@@ -26,6 +27,7 @@ functions:
             - http:
                   path: reports
                   method: post
+                  cors: true
 
     listFields:
         handler: handler.listFields
@@ -34,6 +36,7 @@ functions:
             - http:
                   path: fields
                   method: post
+                  cors: true
 
     listApps:
         handler: handler.listApps
@@ -42,6 +45,7 @@ functions:
             - http:
                   path: apps
                   method: post
+                  cors: true
 
     storeAllDataToDB:
         handler: storeAllDataToDB.storeAllDataToDB
@@ -50,6 +54,7 @@ functions:
             - http:
                   path: storeAllDataToDB
                   method: post
+                  cors: true
 
     fetchPaginatedResults:
         handler: handler.fetchPaginatedResults
@@ -58,6 +63,7 @@ functions:
             - http:
                   path: list
                   method: get
+                  cors: true
 
     overview:
         handler: handler.fetchOverviewResults
@@ -66,6 +72,7 @@ functions:
             - http:
                   path: overview
                   method: get
+                  cors: true
 
     fetchAndIndexTypeSenseData:
         handler: typeSense/typeSenseIndexData.fetchAndIndexTypeSenseData
@@ -74,6 +81,7 @@ functions:
             - http:
                   path: typeSenseIndexData
                   method: get
+                  cors: true
 
     search:
         handler: typeSense/search.search
@@ -82,6 +90,7 @@ functions:
             - http:
                   path: search
                   method: get
+                  cors: true
 
     storeSearches:
         handler: typeSense/storeSearches.storeSearches
@@ -90,6 +99,7 @@ functions:
             - http:
                   path: storeSearches
                   method: post
+                  cors: true
 
     updateMetaLabel:
         handler: handler.updateMetaLabel
@@ -98,6 +108,7 @@ functions:
             - http:
                   path: updateMetaLabel
                   method: post
+                  cors: true
 
     updateClassification:
         handler: handler.updateClassification
@@ -106,6 +117,7 @@ functions:
             - http:
                   path: updateClassification
                   method: post
+                  cors: true
 
     storeSecret:
         handler: secretsManager/secretStore.storeSecret
@@ -114,6 +126,7 @@ functions:
             - http:
                   path: login
                   method: post
+                  cors: true
 
 plugins:
     - serverless-offline
