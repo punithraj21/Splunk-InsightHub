@@ -4,12 +4,12 @@ import Table from "@splunk/react-ui/Table";
 import Paginator from "@splunk/react-ui/Paginator";
 import TabBar from "@splunk/react-ui/TabBar";
 import { isEmpty, startCase } from "lodash";
-import Select from "@splunk/react-ui/Select";
-import Search from "@splunk/react-ui/Search";
 
 import { dropDownOptions, mainTabs, tabs } from "../../insight-app/config";
 import { TableRow } from "./components/TableRow";
 import OverviewSection from "./components/OverviewSection";
+import SearchComponent from "./components/SearchComponent";
+import { SelectComponent } from "./components/SelectComponent";
 
 // Main component for displaying insights and data management
 const ReactInsightHub = ({
@@ -48,26 +48,6 @@ const ReactInsightHub = ({
     useEffect(() => {
         setOptions(searchOptions);
     }, [searchOptions]);
-
-    // Function to generate search options
-    const generateOptions = () => {
-        if (isLoading) {
-            return null;
-        }
-
-        return options.map((option, index) => (
-            <Search.Option
-                value={option.snippet}
-                key={index}
-                onClick={() => {
-                    setStoreSearchValue(option.snippet);
-                }}
-            />
-        ));
-    };
-
-    // Generated search options
-    const searchOption = generateOptions();
 
     // Function to handle selected data from dropdown
     const handleSelectedData = (e, { value }) => {
@@ -145,43 +125,22 @@ const ReactInsightHub = ({
             {(activeTabId === "knowledgeObjects" || activeTabId === "dataInventory") && (
                 <>
                     <div style={{ marginTop: "10px", marginBottom: "10px" }}>
-                        <Search
-                            value={searchVale}
-                            inline
-                            onChange={handleSearchChange}
-                            isLoadingOptions={isLoading}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    setStoreSearchValue(searchVale);
-                                }
-                            }}
-                            style={{ width: "80%" }}
-                        >
-                            {searchOption}
-                        </Search>
-                        <Select value={selectedValue} onChange={(e, { value }) => handleSelectedData(e, { value })}>
-                            {activeTabId === "knowledgeObjects"
-                                ? tabs.knowledgeObjects.map((tab, index) => (
-                                      <Select.Option
-                                          key={tab}
-                                          label={`${
-                                              index === 0
-                                                  ? ""
-                                                  : (overviewTabData[dropDownOptions.knowledgeObjects[tab]] || paging.totalItems || 0) + " "
-                                          } ${startCase(tab)}`}
-                                          value={tab}
-                                      />
-                                  ))
-                                : tabs.dataInventory.map((tab, index) => (
-                                      <Select.Option
-                                          key={tab}
-                                          label={`${
-                                              index === 0 ? "" : (overviewTabData[dropDownOptions.dataInventory[tab]] || paging.totalItems || 0) + " "
-                                          } ${startCase(tab)}`}
-                                          value={tab}
-                                      />
-                                  ))}
-                        </Select>
+                        <SearchComponent
+                            searchValue={searchVale}
+                            isLoading={isLoading}
+                            handleSearchChange={handleSearchChange}
+                            searchOptions={searchOptions}
+                            setStoreSearchValue={setStoreSearchValue}
+                        />
+                        <SelectComponent
+                            selectedValue={selectedValue}
+                            handleSelectedData={handleSelectedData}
+                            activeTabId={activeTabId}
+                            tabs={tabs}
+                            overviewTabData={overviewTabData}
+                            paging={paging}
+                            dropDownOptions={dropDownOptions}
+                        />
                     </div>
                     <Table stripeRows>
                         <Table.Head>
