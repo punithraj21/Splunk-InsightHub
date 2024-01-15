@@ -11,6 +11,7 @@ const StyledContainer = styled.div`
     box-shadow: ${variables.overlayShadow};
     background-color: ${variables.backgroundColor};
 `;
+
 const StyledText = styled.div`
     margin-right: ${variables.spacingHalf};
     margin-left: ${variables.spacingHalf};

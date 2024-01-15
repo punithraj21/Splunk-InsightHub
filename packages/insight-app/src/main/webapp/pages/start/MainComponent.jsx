@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { debounce, isEmpty, map, startCase } from "lodash";
 import ReactInsightHub from "@splunk/react-insight-hub/src/ReactInsightHub";
 
-import LoginPage from "./Login";
 import { SERVER_URL, tabs } from "../../../../../config";
+import LoginPage from "./components/Login";
 
 const MainComponent = () => {
     // State hooks for managing various pieces of data
@@ -150,6 +150,7 @@ const MainComponent = () => {
         };
 
         const fetchIndexes = async () => {
+            setIndexes([]);
             map(tabs, (tabsData) => {
                 tabsData.map((tab) => {
                     if (tab === knowledgeObjectSelectedSubTab) {
@@ -185,7 +186,7 @@ const MainComponent = () => {
         } else {
             fetchIndexes();
         }
-    }, [currentPage, paging.perPage, selectedTabId, knowledgeObjectSelectedSubTab, searchText]);
+    }, [currentPage, paging.perPage, knowledgeObjectSelectedSubTab, searchText]);
 
     return (
         <>

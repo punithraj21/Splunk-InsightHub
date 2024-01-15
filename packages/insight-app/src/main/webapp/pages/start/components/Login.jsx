@@ -5,10 +5,10 @@ import Text from "@splunk/react-ui/Text";
 import Button from "@splunk/react-ui/Button";
 import Heading from "@splunk/react-ui/Heading";
 
-import { StyledInput } from "./StartStyles";
+import { StyledInput } from "../StartStyles";
 
 // Importing the server URL from the configuration file
-import { SERVER_URL } from "../../../../../config";
+import { SERVER_URL } from "../../../../../../config";
 
 // LoginPage component definition
 const LoginPage = ({ setIsLoggedIn }) => {

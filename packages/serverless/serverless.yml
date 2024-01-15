@@ -1,4 +1,6 @@
-service: Starter
+org: punithraj
+app: insightapp
+service: InsightApp
 frameworkVersion: "3"
 
 provider:
