@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import { debounce, startCase } from "lodash";
 import Table from "@splunk/react-ui/Table";
 import PropTypes from "prop-types";
+import Text from "@splunk/react-ui/Text";
 
 import { SelectClassification } from "./SelectClassification";
 
@@ -46,8 +47,14 @@ export const TableRow = ({ index, paging, row, handleAddNewMetaLabel, handleChan
             <Table.Cell>{startCase(row.type)}</Table.Cell>
             <Table.Cell>{row.author}</Table.Cell>
             <Table.Cell>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <input type="text" value={localInputValue} placeholder="Add custom labels" onChange={handleInputChange} style={{ flex: 1 }} />
+                <div>
+                    <Text
+                        style={{ display: "flex", justifyContent: "center" }}
+                        type="text"
+                        value={localInputValue}
+                        placeholder="Add custom labels"
+                        onChange={handleInputChange}
+                    />
                 </div>
             </Table.Cell>
             <Table.Cell>

@@ -3,7 +3,7 @@ import { isEmpty, startCase } from "lodash";
 import Select from "@splunk/react-ui/Select";
 import PropTypes from "prop-types";
 
-import { classificationType } from "../../insight-app/config";
+import { classificationType } from "../../../insight-app/config";
 
 // Component for selecting classification type
 export const SelectClassification = ({ row, handleChangeClassification }) => {
@@ -23,6 +23,7 @@ export const SelectClassification = ({ row, handleChangeClassification }) => {
 
     return (
         <Select
+            style={{ width: "100%" }}
             value={isEmpty(classificationTypes) ? row.classification : classificationTypes}
             onChange={(e, { value }) => {
                 setCurrentId(row._id);

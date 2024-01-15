@@ -1,10 +1,9 @@
 import React from "react";
 
 import layout from "@splunk/react-page";
-import ReactInsightHub from "@splunk/react-insight-hub";
 import { getUserTheme } from "@splunk/splunk-utils/themes";
 
-import { StyledContainer, StyledGreeting } from "./StartStyles";
+import { StyledContainer } from "./StartStyles";
 import MainComponent from "./MainComponent";
 
 getUserTheme()
