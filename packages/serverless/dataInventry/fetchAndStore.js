@@ -20,6 +20,10 @@ async function fetchAndStore(event) {
         // Returning a successful response with fetched data
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "http://localhost:8000",
+                "Access-Control-Allow-Credentials": true,
+            },
             body: JSON.stringify({ fields, lookups, indexes }),
         };
     } catch (error) {

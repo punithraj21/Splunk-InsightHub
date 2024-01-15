@@ -50,6 +50,10 @@ async function storeSecret(event) {
 
             return {
                 statusCode: 200,
+                headers: {
+                    "Access-Control-Allow-Origin": "http://localhost:8000",
+                    "Access-Control-Allow-Credentials": true,
+                },
                 body: JSON.stringify("Secret updated successfully!"),
             };
         } catch (describeError) {
@@ -63,6 +67,10 @@ async function storeSecret(event) {
 
                 return {
                     statusCode: 200,
+                    headers: {
+                        "Access-Control-Allow-Origin": "http://localhost:8000",
+                        "Access-Control-Allow-Credentials": true,
+                    },
                     body: JSON.stringify("Secret created successfully!"),
                 };
             } else {

@@ -39,7 +39,7 @@ const MainComponent = () => {
             redirect: "follow",
         };
         await fetch(`${SERVER_URL}/updateMetaLabel`, requestOptions);
-    }, 2000);
+    }, 1000);
 
     // Function to handle change in classification
     const handleChangeClassification = (classificationTypes, id) => {
@@ -62,7 +62,6 @@ const MainComponent = () => {
             await fetch(`${SERVER_URL}/updateClassification`, requestOptions);
         };
         updateClassification();
-        console.log(classificationTypes, id);
     };
     // Effect hook to handle storing search values
     useEffect(() => {
@@ -130,6 +129,7 @@ const MainComponent = () => {
                     method: "GET",
                     credentials: "include",
                     redirect: "follow",
+                    mode: "cors",
                 };
 
                 fetch(`${SERVER_URL}/overview?username=${username}`, requestOptions)

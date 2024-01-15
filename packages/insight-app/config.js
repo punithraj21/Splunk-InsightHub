@@ -1,5 +1,5 @@
 // The URL of the server where API calls are made
-const SERVER_URL = "https://3qhsbkm5-3000.inc1.devtunnels.ms/dev";
+const SERVER_URL = "https://9rkq3t94dc.execute-api.ap-south-1.amazonaws.com/dev";
 
 // Array of main tabs used in the application's navigation
 const mainTabs = ["overview", "knowledgeObjects", "dataInventory"];

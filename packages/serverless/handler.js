@@ -9,6 +9,10 @@ const listDashboards = async (event) => {
         const dashboards = await fetchDashboards({ username, password, offset });
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "http://localhost:8000",
+                "Access-Control-Allow-Credentials": true,
+            },
             body: JSON.stringify({ dashboards }),
         };
     } catch (error) {
@@ -27,6 +31,10 @@ const listReports = async (event) => {
         const reports = await fetchReports({ username, password, offset });
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "http://localhost:8000",
+                "Access-Control-Allow-Credentials": true,
+            },
             body: JSON.stringify({ reports }),
         };
     } catch (error) {
@@ -45,6 +53,10 @@ const listFields = async (event) => {
         const fields = await fetchFieldSummary({ username, password, offset });
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "http://localhost:8000",
+                "Access-Control-Allow-Credentials": true,
+            },
             body: JSON.stringify({ fields }),
         };
     } catch (error) {
@@ -63,6 +75,10 @@ const listApps = async (event) => {
         const fields = await fetchApps({ username, password, offset });
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "http://localhost:8000",
+                "Access-Control-Allow-Credentials": true,
+            },
             body: JSON.stringify({ fields }),
         };
     } catch (error) {
@@ -81,6 +97,10 @@ const fetchPaginatedResults = async (event) => {
         const results = await fetchDataPaginated({ page, limit, type });
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "http://localhost:8000",
+                "Access-Control-Allow-Credentials": true,
+            },
             body: JSON.stringify({ results }),
         };
     } catch (error) {
@@ -97,6 +117,10 @@ const fetchOverviewResults = async (event) => {
         const results = await fetchCountsFromBothCollections();
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "http://localhost:8000",
+                "Access-Control-Allow-Credentials": true,
+            },
             body: JSON.stringify({ results }),
         };
     } catch (error) {
@@ -114,6 +138,10 @@ const updateMetaLabel = async (event) => {
         const results = await updateMeta({ id, metaLabel });
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "http://localhost:8000",
+                "Access-Control-Allow-Credentials": true,
+            },
             body: JSON.stringify({ results }),
         };
     } catch (error) {
@@ -132,6 +160,10 @@ const updateClassification = async (event) => {
         const results = await updateClass({ id, classification });
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "http://localhost:8000",
+                "Access-Control-Allow-Credentials": true,
+            },
             body: JSON.stringify({ results }),
         };
     } catch (error) {
