@@ -24,7 +24,7 @@ Running `yarn run setup` once is required to enable all other tasks. The command
 
 ## Serverless Docs
 
-Refer Readme document Provided in the packages/serverless
+For more detailed information, please refer to the [Serverless Package README](./packages/serverless/README.md).
 
 ## Clear Splunk Cache
 
