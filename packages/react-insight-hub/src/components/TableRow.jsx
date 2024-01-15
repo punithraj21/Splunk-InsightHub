@@ -8,6 +8,22 @@ import { SelectClassification } from "./SelectClassification";
 
 // TableRow component for rendering each row of the table
 export const TableRow = ({ index, paging, row, handleAddNewMetaLabel, handleChangeClassification }) => {
+    const modifyRowLink = (row) => {
+        const modRow = row;
+        const appName = row?.acl?.app ? row?.acl?.app : row?.app;
+        const name = encodeURIComponent(row.name);
+        if (row.type === "dashboard") {
+            modRow.ids = `http://localhost:8000/en-GB/app/${appName}/${name}`;
+        } else if (row.type === "report") {
+            const serviceName = encodeURIComponent(appName); // or another appropriate field from the row
+            const searchPath = encodeURIComponent(`/servicesNS/nobody/${serviceName}/saved/searches/${name}`);
+            modRow.ids = `http://localhost:8000/en-GB/app/${appName}/report?s=${searchPath}`;
+        } else if (row.type === "app") {
+            modRow.ids = `http://localhost:8000/en-GB/app/${name}`;
+        }
+        return modRow;
+    };
+    const modRow = modifyRowLink(row);
     // State to manage the value of the meta label input
     const [localInputValue, setLocalInputValue] = useState(row?.metaLabel?.join(", ") || "");
 
@@ -32,7 +48,7 @@ export const TableRow = ({ index, paging, row, handleAddNewMetaLabel, handleChan
         <Table.Row key={row.id}>
             <Table.Cell>{(paging.currentPage - 1) * 30 + index + 1}</Table.Cell>
             <Table.Cell>
-                <a href={row.id}>{row.name}</a>
+                <a href={modRow.ids}>{row.name}</a>
             </Table.Cell>
             <Table.Cell
                 style={{

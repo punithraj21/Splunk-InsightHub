@@ -24,7 +24,7 @@ const StyledGreeting = styled.div`
 `;
 
 const StyledGrid = styled.div`
-    margin-top: ${variables.spacingHalf};
+    margin-top: ${variables.spacing};
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 20px;

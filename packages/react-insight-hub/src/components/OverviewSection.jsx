@@ -27,7 +27,7 @@ const OverviewSection = ({ name, overviewTabData }) => {
                             </Card.Body>
                         </div>
                         <div style={{ color: "#53a051", fontSize: "30px" }}>
-                            <CirclesFour variant="filled" height={28} width={28} />
+                            <CirclesFour variant="filled" height={52} width={52} />
                         </div>
                     </div>
                 </Card>
@@ -40,7 +40,7 @@ const OverviewSection = ({ name, overviewTabData }) => {
                             </Card.Body>
                         </div>
                         <div style={{ color: "#53a051" }}>
-                            <FileCharts height={28} width={28} variant="filled" />
+                            <FileCharts height={52} width={52} variant="filled" />
                         </div>
                     </div>
                 </Card>
@@ -53,7 +53,7 @@ const OverviewSection = ({ name, overviewTabData }) => {
                             </Card.Body>
                         </div>
                         <div style={{ color: "#53a051" }}>
-                            <Report height={28} width={28} variant="filled" />
+                            <Report height={52} width={52} variant="filled" />
                         </div>
                     </div>
                 </Card>
@@ -66,7 +66,7 @@ const OverviewSection = ({ name, overviewTabData }) => {
                             </Card.Body>
                         </div>
                         <div style={{ color: "#53a051" }}>
-                            <CylinderMagnifier height={28} width={28} variant="filled" />
+                            <CylinderMagnifier height={52} width={52} variant="filled" />
                         </div>
                     </div>
                 </Card>
@@ -79,7 +79,7 @@ const OverviewSection = ({ name, overviewTabData }) => {
                             </Card.Body>
                         </div>
                         <div style={{ color: "#53a051" }}>
-                            <TableSlide height={28} width={28} variant="filled" />
+                            <TableSlide height={52} width={52} variant="filled" />
                         </div>
                     </div>
                 </Card>
@@ -92,7 +92,7 @@ const OverviewSection = ({ name, overviewTabData }) => {
                             </Card.Body>
                         </div>
                         <div style={{ color: "#53a051" }}>
-                            <Indexes height={28} width={28} variant="filled" />
+                            <Indexes height={52} width={52} variant="filled" />
                         </div>
                     </div>
                 </Card>
@@ -105,7 +105,7 @@ const OverviewSection = ({ name, overviewTabData }) => {
                             </Card.Body>
                         </div>
                         <div style={{ color: "#53a051" }}>
-                            <ChevronsTextSmallA height={28} width={28} />
+                            <ChevronsTextSmallA height={52} width={52} />
                         </div>
                     </div>
                 </Card>
@@ -118,7 +118,7 @@ const OverviewSection = ({ name, overviewTabData }) => {
                             </Card.Body>
                         </div>
                         <div style={{ color: "#53a051" }}>
-                            <CylinderChevrons height={28} width={28} variant="filled" />
+                            <CylinderChevrons height={52} width={52} variant="filled" />
                         </div>
                     </div>
                 </Card>
