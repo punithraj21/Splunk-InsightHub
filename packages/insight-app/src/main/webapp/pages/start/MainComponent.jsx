@@ -4,6 +4,7 @@ import ReactInsightHub from "@splunk/react-insight-hub/src/ReactInsightHub";
 
 import { SERVER_URL, tabs } from "../../../../../config";
 import LoginPage from "./components/Login";
+import { fetchWithCredentials } from "./utils/api";
 
 const MainComponent = () => {
     // State hooks for managing various pieces of data
@@ -20,7 +21,7 @@ const MainComponent = () => {
     const [username] = useState(localStorage.getItem("user") || "");
 
     // Debounced function to handle adding new meta labels
-    const handleAddNewMetaLabel = debounce(async (customMetaLabels, id) => {
+    const handleAddNewMetaLabel = debounce(async (customMetaLabels, id, typesenseId) => {
         // Guard clause to exit if labels are empty
         if (isEmpty(customMetaLabels)) {
             return;
@@ -28,38 +29,31 @@ const MainComponent = () => {
         // Processing and posting the meta labels
         const labelsArray = customMetaLabels.split(",").map((label) => label.trim());
 
-        const requestOptions = {
-            method: "POST",
-            body: JSON.stringify({
-                metaLabel: labelsArray,
-                id,
-                username,
-            }),
-            credentials: "include",
-            redirect: "follow",
+        const body = {
+            metaLabel: labelsArray,
+            id,
+            username,
+            typesenseId,
         };
-        await fetch(`${SERVER_URL}/updateMetaLabel`, requestOptions);
+
+        await fetchWithCredentials(`${SERVER_URL}/updateMetaLabel`, "POST", body);
     }, 1000);
 
     // Function to handle change in classification
-    const handleChangeClassification = (classificationTypes, id) => {
+    const handleChangeClassification = (classificationTypes, id, typesenseId) => {
         // Guard clause to exit if classification types are empty
         if (isEmpty(classificationTypes)) {
             return;
         }
         // Function to update classification
         const updateClassification = async () => {
-            const requestOptions = {
-                method: "POST",
-                body: JSON.stringify({
-                    classification: classificationTypes,
-                    id,
-                    username,
-                }),
-                credentials: "include",
-                redirect: "follow",
+            const body = {
+                classification: classificationTypes,
+                id,
+                username,
+                typesenseId,
             };
-            await fetch(`${SERVER_URL}/updateClassification`, requestOptions);
+            await fetchWithCredentials(`${SERVER_URL}/updateClassification`, "POST", body);
         };
         updateClassification();
     };
@@ -71,17 +65,13 @@ const MainComponent = () => {
                 if (isEmpty(storeSearchValue)) {
                     return;
                 }
-                const requestOptions = {
-                    method: "POST",
-                    body: JSON.stringify({
-                        searchTerm: storeSearchValue,
-                        username,
-                    }),
-                    credentials: "include",
-                    redirect: "follow",
+
+                const body = {
+                    searchTerm: storeSearchValue,
+                    username,
                 };
 
-                await fetch(`${SERVER_URL}/storeSearches`, requestOptions);
+                await fetchWithCredentials(`${SERVER_URL}/storeSearches`, "POST", body);
             } catch (error) {
                 console.log(error);
             }

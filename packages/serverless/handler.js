@@ -133,9 +133,9 @@ const fetchOverviewResults = async (event) => {
 
 // Function to update meta label for a specific document
 const updateMetaLabel = async (event) => {
-    const { id, metaLabel } = JSON.parse(event.body);
+    const { id, metaLabel, typesenseId = "" } = JSON.parse(event.body);
     try {
-        const results = await updateMeta({ id, metaLabel });
+        const results = await updateMeta({ id, metaLabel, typesenseId });
         return {
             statusCode: 200,
             headers: {
@@ -154,10 +154,10 @@ const updateMetaLabel = async (event) => {
 
 // Function to update classification for a specific document
 const updateClassification = async (event) => {
-    const { id, classification } = JSON.parse(event.body);
+    const { id, classification, typesenseId = "" } = JSON.parse(event.body);
 
     try {
-        const results = await updateClass({ id, classification });
+        const results = await updateClass({ id, classification, typesenseId });
         return {
             statusCode: 200,
             headers: {

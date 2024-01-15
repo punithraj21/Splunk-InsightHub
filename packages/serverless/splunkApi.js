@@ -138,8 +138,9 @@ async function fetchDataPaginated({ page = 1, limit = 30, type = null }) {
 }
 
 // Function to update the meta label of a document in MongoDB
-async function updateMeta({ id, metaLabel }) {
+async function updateMeta({ id, metaLabel, typesenseId }) {
     try {
+        await updateTypesenseDocument(typesenseId, { metaLabel });
         const db = await connectToDb();
         const collection = db.collection("splunk_host");
         const updatedResult = await collection.updateOne(
@@ -157,8 +158,9 @@ async function updateMeta({ id, metaLabel }) {
 }
 
 // Function to update the classification of a document in MongoDB
-async function updateClass({ id, classification }) {
+async function updateClass({ id, classification, typesenseId }) {
     try {
+        await updateTypesenseDocument(typesenseId, { classification });
         const db = await connectToDb();
         const collection = db.collection("splunk_host");
         const updatedResult = await collection.updateOne(
@@ -169,7 +171,6 @@ async function updateClass({ id, classification }) {
                 },
             }
         );
-        console.log("updatedResult: ", updatedResult);
         return updatedResult;
     } catch (error) {
         console.error("Error updating classification: ", error);
