@@ -33,3 +33,9 @@ For more detailed information, please refer to the [Serverless Package README](.
 ## For App Login
 
 Use the username and password which you are using for splunk login
+
+## Docker Commands
+
+To build `docker build -t splunk-app .`
+
+To run `docker run splunk-app`
