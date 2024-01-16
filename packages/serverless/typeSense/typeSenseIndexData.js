@@ -76,6 +76,9 @@ const fetchAndIndexTypeSenseData = async () => {
             { name: "description", type: "string" },
             { name: "author", type: "string" },
             { name: "_id", type: "string" },
+            { name: "metaLabel", type: "array" },
+            { name: "classification", type: "string" },
+            { name: "app", type: "string" },
         ],
     };
 
@@ -89,7 +92,16 @@ const fetchAndIndexTypeSenseData = async () => {
         if (documents.length > 0) {
             // Filtering and structuring documents for Typesense indexing
             const filteredDocs = documents.map((doc) => {
-                return { name: doc.name, type: doc.type, description: doc.content.description || "", author: doc.author, _id: doc._id };
+                return {
+                    name: doc.name,
+                    type: doc.type,
+                    description: doc.content.description || "",
+                    author: doc.author,
+                    _id: doc._id,
+                    metaLabel: doc.metaLabel || [],
+                    classification: doc.classification || "",
+                    app: doc.acl.app,
+                };
             });
 
             // Indexing the documents in Typesense

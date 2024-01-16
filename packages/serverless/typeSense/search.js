@@ -64,6 +64,10 @@ const search = async (event) => {
                     description: hit.document.description,
                     author: hit.document.author,
                     id: hit.document.id,
+                    metaLabel: hit.document.metaLabel,
+                    classification: hit.document.classification,
+                    typesenseId: hit.document.id,
+                    app: hit.document.app,
                 };
             })
             .filter((result) => result !== undefined);
